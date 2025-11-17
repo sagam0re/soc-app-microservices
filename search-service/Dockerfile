@@ -1,13 +1,15 @@
 FROM node:18-alpine
 
-WORKDIR /use/src/app
+WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm ci --only=production
+RUN npm ci
 
 COPY . .
 
+RUN npm run build && npm prune --omit=dev
+
 EXPOSE 3004
 
-CMD ["node", "src/server.js"]
+CMD ["node", "dist/server.js"]

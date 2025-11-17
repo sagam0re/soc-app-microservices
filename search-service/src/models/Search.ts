@@ -1,7 +1,6 @@
-const mongoose = require("mongoose");
-const { search } = require("../../../media-service/src/routes/media.route");
+import { Schema, model, InferSchemaType } from "mongoose";
 
-const searchPostSchema = new mongoose.Schema(
+const searchPostSchema = new Schema(
   {
     postId: {
       type: String,
@@ -21,6 +20,8 @@ const searchPostSchema = new mongoose.Schema(
 searchPostSchema.index({ content: "text" });
 searchPostSchema.index({ createdAt: -1 });
 
-const Search = mongoose.model("Search", searchPostSchema);
+export type SearchDocument = InferSchemaType<typeof searchPostSchema>;
 
-module.exports = Search;
+const Search = model<SearchDocument>("Search", searchPostSchema);
+
+export default Search;

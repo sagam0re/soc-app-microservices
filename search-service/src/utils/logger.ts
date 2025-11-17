@@ -1,11 +1,12 @@
-const winston = require("winston");
+import winston from "winston";
 
 const logger = winston.createLogger({
   level: "info",
   format: winston.format.combine(
     winston.format.timestamp(),
     winston.format.printf(({ timestamp, level, message }) => {
-      return `${timestamp} [${level}]: ${message}`;
+      const ts = typeof timestamp === "string" ? timestamp : "";
+      return `${ts} [${level}]: ${message as string}`;
     })
   ),
   defaultMeta: { service: "search-service" },
@@ -16,4 +17,4 @@ const logger = winston.createLogger({
   ],
 });
 
-module.exports = logger;
+export default logger;
